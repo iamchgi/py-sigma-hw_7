@@ -56,6 +56,18 @@ pip 24.3.1
 if __name__ == '__main__':
     pass
     # ------------------------  CV ----------------------------
+    software_developer = cv.SoftwareDeveloper('Hryhorii Chernolutskyi', '1976', '48')
+    software_developer.set_language(("Python", "Pascal", "Java", "VB", "PHP"))
+
+    professor = cv.Profffesssor('Василь Пупкін', '2000', '24')
+    professor.set_teaching('10')
+    professor.set_subjects(("history", "psychology", "microbiology", "genetics", "philosophy"))
+
+    locksmith = cv.Locksmith('Дід Панас', '1917', '107')
+    locksmith.set_tools(('hammer', 'knife', 'screwdriver', 'pliers'))
+
+    for vocation in (software_developer, professor, locksmith):
+        vocation.draw()
 
     # ------------------------ Розрахунок площі пласких фігур ----------------------------
 
