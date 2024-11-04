@@ -1,0 +1,4 @@
+name : Тарас Бульба
+birth : 1976
+age : 48
+languages : ('Python', 'Pascal', 'Java', 'VB', 'PHP')

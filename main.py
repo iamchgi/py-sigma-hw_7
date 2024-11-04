@@ -50,32 +50,108 @@ pip 24.3.1
 
 """
 
+import package_images.Im_PIL
+from package_parsing import (
+    SiteParsing
+)
+from package_cv import (
+    SoftwareDeveloper,
+    Profffesssor,
+    Locksmith
+)
 
 
-# --------------------------------- main module ----------------------------------------------
-if __name__ == '__main__':
-    pass
-    # ------------------------  CV ----------------------------
-    software_developer = cv.SoftwareDeveloper('Hryhorii Chernolutskyi', '1976', '48')
+def package_cv_main_def() -> None:
+    software_developer = SoftwareDeveloper('Тарас Бульба', '1976', '48')
     software_developer.set_language(("Python", "Pascal", "Java", "VB", "PHP"))
 
-    professor = cv.Profffesssor('Василь Пупкін', '2000', '24')
+    professor = Profffesssor('Василь Пупкін', '2000', '24')
     professor.set_teaching('10')
     professor.set_subjects(("history", "psychology", "microbiology", "genetics", "philosophy"))
 
-    locksmith = cv.Locksmith('Дід Панас', '1917', '107')
+    locksmith = Locksmith('Дід Панас', '1917', '107')
     locksmith.set_tools(('hammer', 'knife', 'screwdriver', 'pliers'))
 
     for vocation in (software_developer, professor, locksmith):
         vocation.draw()
+        vocation.save()
 
-    # ------------------------ Розрахунок площі пласких фігур ----------------------------
+    return
 
-    # ------------------------ Демонстрація роботи алгоритму  ----------------------------
+def package_image_main_def() -> None:
+    file_name_start = 'sentinel_2023.jpg'
+    file_name_stop = "stop.jpg"
+    file_name_filter = "stop_filter.jpg"
 
+    print('оберіть тип перетворення!')
+    print('0 - відтінки сірого')
+    print('1 - серпія')
+    print('2 - негатив')
+    print('3 - зашумлення')
+    print('4 - зміна яскравості')
+    print('5 - монохромне зображення')
+    print('6 - фільтр-векторизатор')
+    mode = int(input('mode:'))
+    if (mode == 0): package_images.Im_PIL.shades_of_gray(file_name_start, file_name_stop)
+    if (mode == 1): package_images.Im_PIL.serpia(file_name_start, file_name_stop)
+    if (mode == 2): package_images.Im_PIL.negative(file_name_start, file_name_stop)
+    if (mode == 3): package_images.Im_PIL.noise(file_name_start, file_name_stop)
+    if (mode == 4): package_images.Im_PIL.brightness_change(file_name_start, file_name_stop)
+    if (mode == 5): package_images.Im_PIL.monochrome(file_name_start, file_name_stop)
+    if (mode == 6): package_images.Im_PIL.contour_im(file_name_stop, file_name_filter)
+
+    return
+
+
+def package_parsing_main_def() -> None:
+    site_parsing = SiteParsing()
+
+    return
+
+
+# --------------------------------- main module ----------------------------------------------
+if __name__ == '__main__':
+    # ------------------------  CV ----------------------------
+    package_cv_main_def()
+    # ------------------------ Приклад роботи з зображенням ----------------------------
+    package_image_main_def()
+    # ------------------------ Демонстрація парсингу сайтіка ----------------------------
+    package_parsing_main_def()
 
 ''' 
 РЕЗУЛЬТАТ
+
+Software developer
+ Ім'я, прізвище: Тарас Бульба
+ Дата народження: 1976
+ Вік: 48
+ Мови програмування:
+Python Pascal Java VB PHP  
+------------------------ запис CV у файл "Тарас Бульба.txt" ----------------------
+CV was saved successfully in file "Тарас Бульба.txt"
+Writing file module finished its work with current file "Тарас Бульба.txt".
+
+Профффесссор
+ Ім'я, прізвище: Василь Пупкін
+ Дата народження: 2000
+ Вік: 24
+ Викладацький стаж: 10
+ Викладає таке от:
+history psychology microbiology genetics philosophy  
+------------------------ запис CV у файл "Василь Пупкін.txt" ----------------------
+CV was saved successfully in file "Василь Пупкін.txt"
+Writing file module finished its work with current file "Василь Пупкін.txt".
+
+locksmith
+ Ім'я, прізвище: Дід Панас
+ Дата народження: 1917
+ Вік: 107
+ Має інструменти:
+hammer knife screwdriver pliers  
+------------------------ запис CV у файл "Дід Панас.txt" ----------------------
+CV was saved successfully in file "Дід Панас.txt"
+Writing file module finished its work with current file "Дід Панас.txt".
+
 
 
 '''

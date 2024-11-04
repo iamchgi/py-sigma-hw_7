@@ -1,1 +1,8 @@
+temp
+.venv
+*.rar
 .idea
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]

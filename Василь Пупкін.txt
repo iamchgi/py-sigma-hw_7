@@ -1,0 +1,5 @@
+name : Василь Пупкін
+birth : 2000
+age : 24
+teaching_time : 10
+subjects : ('history', 'psychology', 'microbiology', 'genetics', 'philosophy')

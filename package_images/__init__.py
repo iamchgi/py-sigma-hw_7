@@ -1,1 +1,0 @@
-from .package_parser import MyClass_my_cv_dict
