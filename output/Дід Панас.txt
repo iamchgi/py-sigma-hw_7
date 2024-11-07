@@ -1,0 +1,4 @@
+name : Дід Панас
+birth : 1917
+age : 107
+tools : ('hammer', 'knife', 'screwdriver', 'pliers')

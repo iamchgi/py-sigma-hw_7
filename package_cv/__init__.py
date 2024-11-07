@@ -1,0 +1,1 @@
+from .curriculum_vitae import SoftwareDeveloper, Profffesssor, Locksmith
