@@ -19,7 +19,7 @@ Homework_7
 відповідно до інструкцій https://docs.github.com/en/get-started/quickstart/hello-world -
 завантажте створений Вами проект до репозиторію Lesson-4-9.
 Посилання на репозиторій додайте до архіву проекту.
-Порядок реалізації Блоку 2 структурної схеми рис.1.
+Порядок реалізації Блоку 2 структурної схеми рис. 1.
 1. Оберіть джерело даних дистанційного зондування Землі (ДЗЗ) з переліку:
 https://www.kaggle.com/
 https://paperswithcode.com/
@@ -40,19 +40,21 @@ Im_PIL.py – щоб вибудовати послідовність, яка д�
 рефакторинг (редагування) програмного коду скрипта Im_PIL.py за принципами
 архітектурної «чистоти» - стандарти РЕР, принципи SOLID.
 Рівень складності І – 4 бали. Реалізувати завдання з реалізації Блоку 1, структурної
-схеми рис.1.
-Рівень складності ІІ – 6 балів. Реалізувати завдання з реалізації на вибір Блоку 2, або
-Блоку 3 структурної схеми рис.1.
+схеми рис. 1.
+Рівень складності II – 6 балів. Реалізувати завдання з реалізації на вибір Блоку 2, або
+Блоку 3 структурної схеми рис. 1.
 
 Package Version
 ------- -------
 pip 24.3.1
 
 """
-
-import package_images.Im_PIL
+import pandas as pd
+import os
+from package_images.Im_PIL import brightness_change, shades_of_gray, negative
 from package_parsing import (
-    SiteParsing
+    SiteParsing,
+    parsing_site_work_ua
 )
 from package_cv import (
     SoftwareDeveloper,
@@ -60,7 +62,7 @@ from package_cv import (
     Locksmith
 )
 
-
+#   Метод створення і заповнення трьох резюмує
 def package_cv_main_def() -> None:
     software_developer = SoftwareDeveloper('Тарас Бульба', '1976', '48')
     software_developer.set_language(("Python", "Pascal", "Java", "VB", "PHP"))
@@ -78,44 +80,45 @@ def package_cv_main_def() -> None:
 
     return
 
-def package_image_main_def() -> None:
-    file_name_start = 'sentinel_2023.jpg'
-    file_name_stop = "stop.jpg"
-    file_name_filter = "stop_filter.jpg"
 
-    print('оберіть тип перетворення!')
-    print('0 - відтінки сірого')
-    print('1 - серпія')
-    print('2 - негатив')
-    print('3 - зашумлення')
-    print('4 - зміна яскравості')
-    print('5 - монохромне зображення')
-    print('6 - фільтр-векторизатор')
-    mode = int(input('mode:'))
-    if (mode == 0): package_images.Im_PIL.shades_of_gray(file_name_start, file_name_stop)
-    if (mode == 1): package_images.Im_PIL.serpia(file_name_start, file_name_stop)
-    if (mode == 2): package_images.Im_PIL.negative(file_name_start, file_name_stop)
-    if (mode == 3): package_images.Im_PIL.noise(file_name_start, file_name_stop)
-    if (mode == 4): package_images.Im_PIL.brightness_change(file_name_start, file_name_stop)
-    if (mode == 5): package_images.Im_PIL.monochrome(file_name_start, file_name_stop)
-    if (mode == 6): package_images.Im_PIL.contour_im(file_name_stop, file_name_filter)
-
+def package_image_main_def(source_file, destination_file) -> None:
+    """
+    :param source_file: Вихідне джерело зображення для перетворення
+    :param destination_file:  Файл результату з перетвореним зображенням
+    :return:
+    """
+    file_temp01 = 'temp01.jpg'
+    file_temp02 = "temp02.jpg"
+    print('перетворення!')
+    print('відтінки сірого')
+    shades_of_gray(source_file, file_temp01)
+    print('негатив')
+    negative(file_temp01, file_temp02)
+    print('зміна яскравості')
+    brightness_change(file_temp02, destination_file)
+    os.remove(file_temp01)
+    os.remove(file_temp02)
     return
 
 
 def package_parsing_main_def() -> None:
     site_parsing = SiteParsing()
+    URL_TEMPLATE = "https://www.work.ua/jobs-data+scientist/?page=1"
 
+    df = pd.DataFrame(data=parsing_site_work_ua(URL_TEMPLATE))
+    df.to_csv("output.csv")
+    df.to_excel("output.xlsx")
+    df.to_json("output.json")
     return
 
 
 # --------------------------------- main module ----------------------------------------------
 if __name__ == '__main__':
     # ------------------------  CV ----------------------------
-    package_cv_main_def()
+#   package_cv_main_def()
     # ------------------------ Приклад роботи з зображенням ----------------------------
-    package_image_main_def()
-    # ------------------------ Демонстрація парсингу сайтіка ----------------------------
+#    package_image_main_def('images/sphinx3.jpg', 'images/sphinx_r.jpg')
+    # ------------------------ Демонстрація парсингу сайтика ----------------------------
     package_parsing_main_def()
 
 ''' 
@@ -151,6 +154,25 @@ hammer knife screwdriver pliers
 ------------------------ запис CV у файл "Дід Панас.txt" ----------------------
 CV was saved successfully in file "Дід Панас.txt"
 Writing file module finished its work with current file "Дід Панас.txt".
+
+перетворення!
+відтінки сірого
+START_im red= 207 green= 184 blue= 134
+------- триває перетворення --------------
+STOP_im red= 175 green= 175 blue= 175
+------- перетворення відтінків сірого завершене до файлу temp01.jpg --------------
+негатив
+START_im red= 175 green= 175 blue= 175
+------- триває перетворення --------------
+STOP_im red= 80 green= 80 blue= 80
+------- перетворення негатив завершене до файлу temp02.jpg --------------
+зміна яскравості
+START_im red= 80 green= 80 blue= 80
+введіть діапазон зміни яскравості: -100, +100
+factor:50
+------- триває перетворення --------------
+STOP_im red= 130 green= 130 blue= 130
+------- перетворення зміна яскравості завершене до файлу sphinx_r.jpg --------------
 
 
 

@@ -6,10 +6,9 @@
 
 Package Version
 ------- -------
-pip 23.2.1
+pip 24.3.1
 
 """
-from matplotlib.pyplot import title
 
 
 # Друк на консоль вмісту змінної 'tuple'
