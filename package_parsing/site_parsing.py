@@ -19,12 +19,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 
-class SiteParsing:
-    def __init__(self):
-        pass
-
-
-def parsing_site_work_ua (URL_TEMPLATE):
+def parsing_site_bank_gav_ua(URL_TEMPLATE) -> dict:
     """
     site parsing python
     web scraping / site scraping python
@@ -42,29 +37,46 @@ def parsing_site_work_ua (URL_TEMPLATE):
     Зміни в аргументі для методу get: headers=headers - МИ відрекомендувались звичайним браузером при зверненні до серверу.
     '''
     r = requests.get(URL_TEMPLATE, headers=headers)
-    result_list = {'href': [], 'title': [], 'about': []}
-#    print(r.status_code)
- #   print(r.text)
+    result_list = {'code': [], 'literal': [], 'count': [], 'name': [], 'course': []}
     soup = bs(r.text, "html.parser")
-    vacancies_names = soup.find_all('div', class_="mb-lg")
-    vacancies_info = soup.find_all('p', class_='ellipsis')
-    constant = 5 # для балансування даних
+    exchange_code = soup.find_all('span', class_="value")
+    exchange_literal = soup.find_all('td', attrs={"data-label": "Код літерний"})
+    exchange_count = soup.find_all('td', attrs={"data-label": "Кількість одиниць валюти"})
+    exchange_name = soup.find_all('td', attrs={"data-label": 'Назва валюти'})
+    exchange_course = soup.find_all('td', attrs={"data-label": 'Офіційний курс'})
+    constant = 25  # для балансування даних
     i = 0
-    for name in vacancies_names:
+    for code in exchange_code:
         i = i + 1
-        if (i < (len(vacancies_names) - constant)):
- #           print(name.a['title'])
-            result_list['title'].append(name.a['title'])
-  #          print('https://www.work.ua' + name.a['href'])
-            result_list['href'].append('https://www.work.ua' + name.a['href'])
+        if (i < (len(exchange_code) - constant)):
+            result_list['code'].append(code.text)
     i = 0
-    for info in vacancies_info:
+    for literal in exchange_literal:
         i = i + 1
-        if (i < (len(vacancies_names) - constant)):
- #           print(info.text)
-            result_list['about'].append(info.text)
+        if (i < (len(exchange_literal) - constant)):
+            result_list['literal'].append(literal.text)
 
-    print(result_list['title'])
-    print(result_list['href'])
-    print(result_list['about'])
+    i = 0
+    for name in exchange_name:
+        i = i + 1
+        if (i < (len(exchange_name) - constant)):
+            result_list['name'].append(name.text.replace("\n", "").replace("  ", ""))
+
+    i = 0
+    for count in exchange_count:
+        i = i + 1
+        if (i < (len(exchange_count) - constant)):
+            result_list['count'].append(count.text)
+
+    i = 0
+    for course in exchange_course:
+        i = i + 1
+        if (i < (len(exchange_course) - constant)):
+            result_list['course'].append(course.text)
+
+    print(result_list['code'])
+    print(result_list['literal'])
+    print(result_list['count'])
+    print(result_list['name'])
+    print(result_list['course'])
     return result_list

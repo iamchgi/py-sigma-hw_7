@@ -59,7 +59,7 @@ def save_to_file(cv: 'CurriculumVitae') -> None:
     :param cv: об'єкт класу, або об'єкт нащядка класу, "CurriculumVitae" який зберігати будемо
     :return: None
     """
-    current_file_name = cv.own_cv['name'] + '.txt'
+    current_file_name = "output/" + cv.own_cv['name'] + '.txt'
     current_data = generate_cv_file_data(cv)
     save_txt_to_file(current_file_name, current_data)
 

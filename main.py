@@ -53,14 +53,14 @@ import pandas as pd
 import os
 from package_images.Im_PIL import brightness_change, shades_of_gray, negative
 from package_parsing import (
-    SiteParsing,
-    parsing_site_work_ua
+    parsing_site_bank_gav_ua
 )
 from package_cv import (
     SoftwareDeveloper,
     Profffesssor,
     Locksmith
 )
+
 
 #   Метод створення і заповнення трьох резюмує
 def package_cv_main_def() -> None:
@@ -102,24 +102,29 @@ def package_image_main_def(source_file, destination_file) -> None:
 
 
 def package_parsing_main_def() -> None:
-    site_parsing = SiteParsing()
-    URL_TEMPLATE = "https://www.work.ua/jobs-data+scientist/?page=1"
+    print("\nКурс НБУ")
+    URL_TEMPLATE = "https://bank.gov.ua/ua/markets/exchangerates"
 
-    df = pd.DataFrame(data=parsing_site_work_ua(URL_TEMPLATE))
-    df.to_csv("output.csv")
-    df.to_excel("output.xlsx")
-    df.to_json("output.json")
+    df = pd.DataFrame(data=parsing_site_bank_gav_ua(URL_TEMPLATE))
+    df.to_csv("output/exchange.csv")
+    df.to_excel("output/exchange.xlsx")
+    df.to_json("output/exchange.json")
+    print("Дані збережені в файли")
     return
+
+
+def main() -> None:
+    # ------------------------  CV ----------------------------
+    package_cv_main_def()
+    # ------------------------ Приклад роботи з зображенням ----------------------------
+    package_image_main_def('images/sphinx3.jpg', 'images/sphinx_r.jpg')
+    # ------------------------ Демонстрація парсингу сайтика ----------------------------
+    package_parsing_main_def()
 
 
 # --------------------------------- main module ----------------------------------------------
 if __name__ == '__main__':
-    # ------------------------  CV ----------------------------
-#   package_cv_main_def()
-    # ------------------------ Приклад роботи з зображенням ----------------------------
-#    package_image_main_def('images/sphinx3.jpg', 'images/sphinx_r.jpg')
-    # ------------------------ Демонстрація парсингу сайтика ----------------------------
-    package_parsing_main_def()
+    main()
 
 ''' 
 РЕЗУЛЬТАТ
@@ -174,6 +179,11 @@ factor:50
 STOP_im red= 130 green= 130 blue= 130
 ------- перетворення зміна яскравості завершене до файлу sphinx_r.jpg --------------
 
-
+Курс НБУ
+['036', '944', '933', '975', '410', '344', '208']
+['AUD', 'AZN', 'BYN', 'BGN', 'KRW', 'HKD', 'DKK']
+['1', '1', '1', '1', '100', '1', '1']
+[' Австралійський долар ', ' Азербайджанський манат ', ' Білоруський рубль ', ' Болгарський лев ', ' Вона ', ' Гонконгівський долар ', ' Данська крона ']
+['27,2243', '24,3960', '15,0684', '22,6710', '2,9572', '5,3312', '5,9457']
 
 '''
